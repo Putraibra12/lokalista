@@ -48,17 +48,17 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
-        {
-            if (auth()->user()->type == 'admin') {
+        if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+            if (auth()->user()->type == 'super admin') {
+                return redirect()->route('superadmin.dashboard');
+            } elseif (auth()->user()->type == 'admin') {
                 return redirect()->route('admin.dashboard');
-            }else{
+            } else {
                 return redirect()->route('customer.dashboard');
             }
-        }else{
+        } else {
             return redirect()->route('login')
-                ->with('error','Email atau Password Salah, Mohon Coba Lagi.');
+                ->with('error', 'Email atau Password Salah, Mohon Coba Lagi.');
         }
-
     }
 }

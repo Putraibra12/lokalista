@@ -16,6 +16,10 @@ use App\Http\Controllers\customer\KeranjangCustomerController;
 use App\Http\Controllers\customer\PesananCustomerController;
 use App\Http\Controllers\customer\ProdukCustomerController;
 use App\Http\Controllers\Customer\ProfileCustomerController;
+use App\Http\Controllers\Superadmin\DashboardSuperAdminController;
+use App\Http\Controllers\Superadmin\ProfileSuperAdminController;
+use App\Http\Controllers\Superadmin\LaporanPenjualanSuperAdminController;
+use App\Http\Controllers\Superadmin\SuperAdminUserController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -117,3 +121,22 @@ Route::middleware(['auth', 'user-access:customer'])->group(function () {
     Route::post('/customer/chat', [ChatCustomerController::class, 'send'])->name('customer.post_chat');
 });
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['auth', 'user-access:super admin'])->group(function () {
+
+    Route::get('/superadmin/dashboard', [DashboardSuperAdminController::class, 'index'])->name('superadmin.dashboard');
+    Route::get('/superadmin/profile', [ProfileSuperAdminController::class, 'index'])->name('superadmin.profile');
+    Route::put('/superadmin/profile/data/{profile}', [ProfileSuperAdminController::class, 'update_data'])->name('superadmin.profile_data_update');
+    Route::put('/superadmin/profile/password/{profile}', [ProfileSuperAdminController::class, 'update_password'])->name('superadmin.profile_password_update');
+    Route::put('/superadmin/profile/foto/{profile}', [ProfileSuperAdminController::class, 'update_foto'])->name('superadmin.profile_foto_update');
+    Route::get('/superadmin/Laporan', [LaporanPenjualanSuperAdminController::class, 'index'])->name('superadmin.laporan');
+    Route::post('/superadmin/Laporan', [LaporanPenjualanSuperAdminController::class, 'laporan_cari'])->name('superadmin.laporan_cari');
+
+    Route::get('/users', [SuperAdminUserController::class, 'index'])->name('superadmin.users.index');
+    Route::get('/users/create', [SuperAdminUserController::class, 'create'])->name('superadmin.users.create');
+    Route::post('/users/store', [SuperAdminUserController::class, 'store'])->name('superadmin.users.store');
+    Route::get('/users/edit/{id}', [SuperAdminUserController::class, 'edit'])->name('superadmin.users.edit');
+    Route::put('/users/update/{id}', [SuperAdminUserController::class, 'update'])->name('superadmin.users.update');
+    Route::delete('/users/delete/{id}', [SuperAdminUserController::class, 'destroy'])->name('superadmin.users.destroy');
+    Route::post('/users/toggle/{id}', [SuperAdminUserController::class, 'toggleActive'])->name('superadmin.users.toggle');
+});

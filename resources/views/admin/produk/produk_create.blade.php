@@ -59,11 +59,18 @@
                                     <label for="exampleFormControlSelect1">Kategori Produk</label>
                                     <select class="form-select @error('kategori_produk') is-invalid @enderror"
                                         name="kategori_produk" id="exampleFormControlSelect1">
-                                        @foreach ($kategori as $kategori)
-                                            <option value="{{ $kategori->id_kategori }}" {{ $kategori->id_kategori == old('kategori_produk') ? 'selected' : '' }}>
-                                                {{ Str::upper($kategori->nama_kategori) }}</option>
-                                        @endforeach
+                                        @if ($kategori->isEmpty())
+                                            <option disabled selected>Data kategori tidak tersedia</option>
+                                        @else
+                                            @foreach ($kategori as $kategori)
+                                                <option value="{{ $kategori->id_kategori }}"
+                                                    {{ $kategori->id_kategori == old('kategori_produk') ? 'selected' : '' }}>
+                                                    {{ Str::upper($kategori->nama_kategori) }}
+                                                </option>
+                                            @endforeach
+                                        @endif
                                     </select>
+
                                     @error('kategori_produk')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
@@ -74,7 +81,8 @@
                                             <label for="exampleInputEmail1">Stok Produk</label>
                                             <input type="number"
                                                 class="form-control @error('stok_produk') is-invalid @enderror"
-                                                name="stok_produk" value="{{ old('stok_produk') }}" placeholder="Stok Produk">
+                                                name="stok_produk" value="{{ old('stok_produk') }}"
+                                                placeholder="Stok Produk">
                                             @error('stok_produk')
                                                 <span class="invalid-feedback">{{ $message }}</span>
                                             @enderror
@@ -98,7 +106,8 @@
                                                     style="color:red"></span></label>
                                             <input id='input_mask_currency' name="harga_produk"
                                                 class="form-control @error('harga_produk') is-invalid @enderror"
-                                                type="text" value="{{ old('harga_produk') }}" placeholder="Harga Produk">
+                                                type="text" value="{{ old('harga_produk') }}"
+                                                placeholder="Harga Produk">
                                             @error('harga_produk')
                                                 <span class="invalid-feedback">{{ $message }}</span>
                                             @enderror
@@ -151,8 +160,8 @@
 @endsection
 
 @section('js')
-<script src="/metrica/dist/assets/libs/tinymce/tinymce.min.js"></script>
-<script src="/metrica/dist/assets/js/pages/form-editor.init.js"></script>
+    <script src="/metrica/dist/assets/libs/tinymce/tinymce.min.js"></script>
+    <script src="/metrica/dist/assets/js/pages/form-editor.init.js"></script>
     <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
     <script>
         imgInp1.onchange = evt => {

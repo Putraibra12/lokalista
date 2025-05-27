@@ -27,4 +27,8 @@ class Pesanan extends Model
         'tipe_pembayaran',
     ];
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'id_pesanan', 'id_pesanan');
+    }
 }
